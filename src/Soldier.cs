@@ -4,59 +4,86 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Strategy
 {
-    public enum Stance { Attack, Defense, StandGround, NoAttack };
+    public enum Stance { Aggressive, Defensive, StandGround, NoAttack };
     public enum SoldierType { Swordsman, Archer };
 
     public abstract class Soldier : Unit
     {
         public Stance stance { get; protected set; }
         public SoldierType soldierType { get; protected set; }
+        protected float sightRadius;
         public Rectangle stance_rect { get; protected set; }
-        protected Rectangle attack_rect, defense_rect, standGround_rect, noAttack_rect;
+        protected Rectangle aggressive_rect, defensive_rect, standGround_rect, noAttack_rect;
 
         public Soldier(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
             unitType = UnitType.Soldier;
-            stance = Stance.Attack;
+            stance = Stance.Aggressive;
 
-            attack_rect = new Rectangle(10, 410, 40, 40);
-            defense_rect = new Rectangle(50, 410, 40, 40);
+            aggressive_rect = new Rectangle(10, 410, 40, 40);
+            defensive_rect = new Rectangle(50, 410, 40, 40);
             standGround_rect = new Rectangle(90, 410, 40, 40);
             noAttack_rect = new Rectangle(130, 410, 40, 40);
         }
 
         public override void Update()
         {
+            GoToDestination();
+        }
+
+        public override void Update(Computer p2)
+        {
             //Update based on stance
             switch (stance)
             {
-                case Stance.Attack:
+                case Stance.Aggressive:
+                    //Continuously follow a target
                     stance_rect = new Rectangle(0, 0, 160, 40);
+
+                    LookForTarget(p2);
+
+                    if (target != null)
+                        FollowUnit(target);
+
                     break;
 
-                case Stance.Defense:
+                case Stance.Defensive:
+                    //Follow a target within a limited range
                     stance_rect = new Rectangle(0, 40, 160, 40);
+
+                    LookForTarget(p2);
+
+                    if (target != null)
+                    {
+                        FollowUnit(target);
+                        Circle range = new Circle(origin, 500);
+                        if (!range.Contains(pos))
+                        {
+                            target = null;
+                            destination = origin;
+                        }
+                    }
+
                     break;
 
                 case Stance.StandGround:
+                    //No movement
                     stance_rect = new Rectangle(0, 80, 160, 40);
                     break;
 
                 case Stance.NoAttack:
+                    //No movement or attacking
                     stance_rect = new Rectangle(0, 120, 160, 40);
                     break;
             }
 
-            //Update stance
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && isSelected)
-            {
-                if (attack_rect.Contains(Mouse.GetState().Position)) stance = Stance.Attack;
-                else if (defense_rect.Contains(Mouse.GetState().Position)) stance = Stance.Defense;
-                else if (standGround_rect.Contains(Mouse.GetState().Position)) stance = Stance.StandGround;
-                else if (noAttack_rect.Contains(Mouse.GetState().Position)) stance = Stance.NoAttack;
-            }
+            //Change stance based on clicks or <Q,W,E,R> hotkeys
+            if (isSelected && (Mouse.GetState().LeftButton == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q) ||
+                Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.E) || Keyboard.GetState().IsKeyDown(Keys.R)))
+                ChangeStance();
 
-            GoToDestination();
+            if (target == null)
+                GoToDestination();
             CheckHP();
         }
 
@@ -66,10 +93,77 @@ namespace Strategy
 
             if (isSelected)
             {
+                //Draw health bar
                 int greenBarWidth = (int)((HP / MaxHP) * 16);
                 spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle((int)pos.X - 3, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
                 spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle((int)pos.X - 3 + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
             }
         }
+
+        #region Helper Functions
+        protected Circle Sight()
+        {
+            return new Circle(new Vector2(pos.X + Width / 2, pos.Y + Height / 2), sightRadius);
+        }
+
+        protected void LookForTarget(Computer p2)
+        {
+            if (!IsMoving() && target == null)
+            {
+                Circle sight = Sight();
+                foreach (Unit unit in p2.units)
+                    if (sight.Contains(unit.pos))
+                    {
+                        target = unit;
+                        origin = pos;
+                        break;
+                    }
+            }
+        }
+
+        protected bool EnemyInSight(Computer p2)
+        {
+            Circle sight = Sight();
+            foreach (Unit unit in p2.units)
+                if (sight.Contains(unit.pos))
+                    return true;
+            return false;
+        }
+
+        protected void ChangeStance()
+        {
+            if (aggressive_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                stance = Stance.Aggressive;
+                vel = Vector2.Zero;
+            }
+
+            else if (defensive_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                stance = Stance.Defensive;
+                vel = Vector2.Zero;
+            }
+
+            else if (standGround_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                stance = Stance.StandGround;
+                if (target != null)
+                {
+                    target = null;
+                    destination = pos;
+                }
+            }
+
+            else if (noAttack_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                stance = Stance.NoAttack;
+                if (target != null)
+                {
+                    target = null;
+                    destination = pos;
+                }
+            }
+        }
+        #endregion
     }
 }

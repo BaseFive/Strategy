@@ -10,6 +10,7 @@ namespace Strategy
         SpriteBatch spriteBatch;
 
         public static Rectangle viewport;
+        Computer p2;
 
         public Game1()
         {
@@ -26,6 +27,7 @@ namespace Strategy
             graphics.ApplyChanges();
 
             Player.Initialize();
+            p2 = new Computer();
 
             base.Initialize();
         }
@@ -36,6 +38,7 @@ namespace Strategy
 
             HUD.LoadContent(Content);
             Player.LoadContent(Content);
+            p2.LoadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -48,7 +51,8 @@ namespace Strategy
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Player.UpdateUnits();
+            Player.UpdateUnits(p2);
+            p2.UpdateUnits();
 
             base.Update(gameTime);
         }
@@ -59,6 +63,7 @@ namespace Strategy
 
             spriteBatch.Begin();
             Player.Draw(spriteBatch);
+            p2.Draw(spriteBatch);
             HUD.Draw(spriteBatch);
             spriteBatch.End();
 

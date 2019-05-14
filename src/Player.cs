@@ -72,7 +72,11 @@ namespace Strategy
             if (oldMouse.RightButton == ButtonState.Released && newMouse.RightButton == ButtonState.Pressed)
             {
                 foreach (Unit unit in selectedUnits)
+                {
+                    unit.target = null;
+                    unit.vel = Vector2.One;
                     unit.destination = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                }
             }
 
             oldMouse = newMouse;
@@ -80,38 +84,40 @@ namespace Strategy
 
         static void HandleKeyboardInput()
         {
+            //Kill units with <DELETE>
             if (Keyboard.GetState().IsKeyDown(Keys.Delete) && selectedUnits.Count > 0)
                 selectedUnits[new Random().Next() % selectedUnits.Count].isDead = true;
         }
 
-        public static void UpdateUnits()
+        public static void UpdateUnits(Computer p2)
         {
             #region For Testing
             KeyboardState newKeyboard = Keyboard.GetState();
-
             #region SpawnUnit
-            if (oldKeyboard.IsKeyUp(Keys.Space) && newKeyboard.IsKeyDown(Keys.Space))
+            if (oldKeyboard.IsKeyUp(Keys.Z) && newKeyboard.IsKeyDown(Keys.Z))
             {
-                Swordsman temp = new Swordsman(soldier, new Vector2(new Random().Next() % 780, new Random().Next() % 380));
+                Swordsman temp = new Swordsman(soldier, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
                 units.Add(temp);
                 soldiers.Add(temp);
             }
             #endregion
-
             #region ReduceHealth
             foreach (Unit unit in selectedUnits)
                 if (oldKeyboard.IsKeyUp(Keys.K) && newKeyboard.IsKeyDown(Keys.K))
                     unit.HP--;
             #endregion
-
             oldKeyboard = newKeyboard;
+            #region MoveEnemyUnit
+            if (p2.units.Count > 0 && Keyboard.GetState().IsKeyDown(Keys.Space))
+                p2.units[0].destination = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            #endregion
             #endregion
 
             HandleMouseInput();
             HandleKeyboardInput();
 
             foreach (Unit unit in units)
-                unit.Update();
+                unit.Update(p2);
 
             //Remove and disselect dead soldiers
             for (int i = 0; i < soldiers.Count; i++)

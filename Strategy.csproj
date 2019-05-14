@@ -43,6 +43,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\Circle.cs" />
+    <Compile Include="src\Computer.cs" />
     <Compile Include="src\Game1.cs" />
     <Compile Include="src\HUD.cs" />
     <Compile Include="src\Player.cs" />

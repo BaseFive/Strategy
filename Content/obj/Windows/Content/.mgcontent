@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HP_Bar_Green.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HP_Bar_Red.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HUD_Base.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/Stances.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Soldier.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

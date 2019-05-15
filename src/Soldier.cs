@@ -29,6 +29,7 @@ namespace Strategy
         public override void Update()
         {
             GoToDestination();
+            CheckHP();
         }
 
         public override void Update(Computer p2)
@@ -43,7 +44,11 @@ namespace Strategy
                     LookForTarget(p2);
 
                     if (target != null)
+                    {
                         FollowUnit(target);
+                        if (IsAtUnit(target))
+                            Attack(target);
+                    }
 
                     break;
 
@@ -56,6 +61,9 @@ namespace Strategy
                     if (target != null)
                     {
                         FollowUnit(target);
+                        if (IsAtUnit(target))
+                            Attack(target);
+
                         Circle range = new Circle(origin, 500);
                         if (!range.Contains(pos))
                         {
@@ -67,8 +75,14 @@ namespace Strategy
                     break;
 
                 case Stance.StandGround:
-                    //No movement
+                    //Only attack units on the spot
                     stance_rect = new Rectangle(0, 80, 160, 40);
+
+                    LookForTarget(p2);
+
+                    if (target != null && IsAtUnit(target))
+                        Attack(target);
+
                     break;
 
                 case Stance.NoAttack:
@@ -92,12 +106,7 @@ namespace Strategy
             spriteBatch.Draw(spriteSheet, pos, Color.White);
 
             if (isSelected)
-            {
-                //Draw health bar
-                int greenBarWidth = (int)((HP / MaxHP) * 16);
-                spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle((int)pos.X - 3, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
-                spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle((int)pos.X - 3 + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
-            }
+                DrawHealthBar(spriteBatch);
         }
 
         #region Helper Functions
@@ -115,7 +124,6 @@ namespace Strategy
                     if (sight.Contains(unit.pos))
                     {
                         target = unit;
-                        origin = pos;
                         break;
                     }
             }

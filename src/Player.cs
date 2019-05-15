@@ -14,6 +14,7 @@ namespace Strategy
         public static List<Unit> selectedUnits;
         public static List<Soldier> selectedSoldiers;
         public static Texture2D soldier, stances;
+        static Rectangle selection;
 
         //Keyboard and mouse states used for single presses and clicks
         static KeyboardState oldKeyboard;
@@ -47,6 +48,7 @@ namespace Strategy
             //Toggle selection of units
             if (oldMouse.LeftButton == ButtonState.Released && newMouse.LeftButton == ButtonState.Pressed)
             {
+                selection = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 0, 0);
                 //Reset selection if <CTRL> key is not held
                 if (Keyboard.GetState().IsKeyUp(Keys.LeftControl) && Keyboard.GetState().IsKeyUp(Keys.RightControl))
                 {
@@ -68,6 +70,26 @@ namespace Strategy
                     }
             }
 
+            //Select multiple units by dragging mouse while holding LMB
+            else if (oldMouse.LeftButton == ButtonState.Pressed && newMouse.LeftButton == ButtonState.Pressed)
+            {
+                selection.Width = Mouse.GetState().X - selection.X;
+                selection.Height = Mouse.GetState().Y - selection.Y;
+            }
+
+            else if (oldMouse.LeftButton == ButtonState.Pressed && newMouse.LeftButton == ButtonState.Released)
+            {
+                foreach (Soldier soldier in soldiers)
+                {
+                    if (selection.Contains(soldier.pos))
+                    {
+                        selectedSoldiers.Add(soldier);
+                        selectedUnits.Add(soldier);
+                        soldier.isSelected = true;
+                    }
+                }
+            }
+
             //Tell units where to go
             if (oldMouse.RightButton == ButtonState.Released && newMouse.RightButton == ButtonState.Pressed)
             {
@@ -76,6 +98,7 @@ namespace Strategy
                     unit.target = null;
                     unit.vel = Vector2.One;
                     unit.destination = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                    unit.origin = unit.destination;
                 }
             }
 

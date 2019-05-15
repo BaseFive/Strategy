@@ -58,7 +58,11 @@ namespace Strategy
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Unit unit in units)
+            {
                 unit.Draw(spriteBatch);
+                if (unit.HP < unit.MaxHP)
+                    unit.DrawHealthBar(spriteBatch);
+            }
         }
     }
 }

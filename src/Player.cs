@@ -40,7 +40,7 @@ namespace Strategy
         static void HandleMouseInput()
         {
             //Only handle clicks inside the main game viewport
-            if (!Game1.viewport.Contains(Mouse.GetState().Position))
+            if (!Strategy.viewport.Contains(Mouse.GetState().Position))
                 return;
 
             MouseState newMouse = Mouse.GetState();
@@ -109,10 +109,10 @@ namespace Strategy
         {
             //Kill units with <DELETE>
             if (Keyboard.GetState().IsKeyDown(Keys.Delete) && selectedUnits.Count > 0)
-                selectedUnits[new Random().Next() % selectedUnits.Count].isDead = true;
+                selectedUnits[new Random().Next(selectedUnits.Count)].isDead = true;
         }
 
-        public static void UpdateUnits(Computer p2)
+        public static void UpdateUnits(Computer p2, GameTime gameTime)
         {
             #region For Testing
             KeyboardState newKeyboard = Keyboard.GetState();
@@ -120,6 +120,12 @@ namespace Strategy
             if (oldKeyboard.IsKeyUp(Keys.Z) && newKeyboard.IsKeyDown(Keys.Z))
             {
                 Swordsman temp = new Swordsman(soldier, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
+                units.Add(temp);
+                soldiers.Add(temp);
+            }
+            if (oldKeyboard.IsKeyUp(Keys.A) && newKeyboard.IsKeyDown(Keys.A))
+            {
+                Archer temp = new Archer(soldier, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
                 units.Add(temp);
                 soldiers.Add(temp);
             }
@@ -140,7 +146,7 @@ namespace Strategy
             HandleKeyboardInput();
 
             foreach (Unit unit in units)
-                unit.Update(p2);
+                unit.Update(p2, gameTime);
 
             //Remove and disselect dead soldiers
             for (int i = 0; i < soldiers.Count; i++)

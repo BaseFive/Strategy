@@ -43,16 +43,21 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\Circle.cs" />
+    <Compile Include="src\Entity.cs" />
+    <Compile Include="src\MovableObject.cs" />
+    <Compile Include="src\Projectiles\Projectile.cs" />
+    <Compile Include="src\Units\Archer.cs" />
     <Compile Include="src\Computer.cs" />
-    <Compile Include="src\Game1.cs" />
+    <Compile Include="src\Strategy.cs" />
+    <Compile Include="src\Geometry.cs" />
     <Compile Include="src\HUD.cs" />
     <Compile Include="src\Player.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Soldier.cs" />
-    <Compile Include="src\Swordsman.cs" />
-    <Compile Include="src\Unit.cs" />
+    <Compile Include="src\Projectiles\Arrow.cs" />
+    <Compile Include="src\Units\Soldier.cs" />
+    <Compile Include="src\Units\Swordsman.cs" />
+    <Compile Include="src\Units\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

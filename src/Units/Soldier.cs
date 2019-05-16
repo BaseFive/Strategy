@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,11 +15,15 @@ namespace Strategy
         protected float sightRadius;
         public Rectangle stance_rect { get; protected set; }
         protected Rectangle aggressive_rect, defensive_rect, standGround_rect, noAttack_rect;
+        public List<Projectile> projectiles;
 
         public Soldier(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
+            projectiles = new List<Projectile>();
             unitType = UnitType.Soldier;
             stance = Stance.Aggressive;
+            hit_range = 10;
+            sightRadius = 300;
 
             aggressive_rect = new Rectangle(10, 410, 40, 40);
             defensive_rect = new Rectangle(50, 410, 40, 40);
@@ -32,7 +37,7 @@ namespace Strategy
             CheckHP();
         }
 
-        public override void Update(Computer p2)
+        public override void Update(Computer p2, GameTime gameTime)
         {
             //Update based on stance
             switch (stance)
@@ -46,8 +51,8 @@ namespace Strategy
                     if (target != null)
                     {
                         FollowUnit(target);
-                        if (IsAtUnit(target))
-                            Attack(target);
+                        if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                            Attack(target, gameTime);
                     }
 
                     break;
@@ -61,8 +66,8 @@ namespace Strategy
                     if (target != null)
                     {
                         FollowUnit(target);
-                        if (IsAtUnit(target))
-                            Attack(target);
+                        if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                            Attack(target, gameTime);
 
                         Circle range = new Circle(origin, 500);
                         if (!range.Contains(pos))
@@ -80,8 +85,8 @@ namespace Strategy
 
                     LookForTarget(p2);
 
-                    if (target != null && IsAtUnit(target))
-                        Attack(target);
+                    if (target != null && IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                        Attack(target, gameTime);
 
                     break;
 
@@ -96,6 +101,16 @@ namespace Strategy
                 Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.E) || Keyboard.GetState().IsKeyDown(Keys.R)))
                 ChangeStance();
 
+            //Update any projectiles fired by the soldier
+            foreach (Projectile proj in projectiles)
+                proj.Update();
+
+            for (int i = 0; i < projectiles.Count; i++)
+                if (projectiles[i].isDead)
+                    projectiles.Remove(projectiles[i]);
+
+            time_since_last_attack += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (target == null)
                 GoToDestination();
             CheckHP();
@@ -107,6 +122,9 @@ namespace Strategy
 
             if (isSelected)
                 DrawHealthBar(spriteBatch);
+
+            foreach (Projectile proj in projectiles)
+                proj.Draw(spriteBatch);
         }
 
         #region Helper Functions
@@ -155,11 +173,6 @@ namespace Strategy
             else if (standGround_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 stance = Stance.StandGround;
-                if (target != null)
-                {
-                    target = null;
-                    destination = pos;
-                }
             }
 
             else if (noAttack_rect.Contains(Mouse.GetState().Position) || Keyboard.GetState().IsKeyDown(Keys.R))

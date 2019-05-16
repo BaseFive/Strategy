@@ -5,38 +5,18 @@ namespace Strategy
 {
     public enum UnitType { Villager, Soldier };
 
-    public abstract class Unit
+    public abstract class Unit : MovableObject
     {
-        protected Texture2D spriteSheet;
-        public Rectangle rect { get; protected set; }
-        public Rectangle collider { get; protected set; }
-        public int Width { get; protected set; }
-        public int Height { get; protected set; }
-        public Vector2 pos, vel;
-        public Vector2 colliderPos;
-        public Vector2 origin, destination;
+        public Vector2 destination;
         public UnitType unitType;
-        public bool isSelected;
-        public float HP, MaxHP;
-        public int attack, armor;
-        public float attackSpeed, attackTimer;
-        public float speed;
-        public bool isDead;
-        public Unit? target;
+        public int armor;
 
-        public Unit(Texture2D spriteSheet, Vector2 pos)
+        public Unit(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
-            this.spriteSheet = spriteSheet;
-            Width = spriteSheet.Width;
-            Height = spriteSheet.Height;
-            this.pos = pos;
             destination = pos;
-            rect = new Rectangle((int)pos.X, (int)pos.Y, Width, Height);
-            collider = new Rectangle((int)pos.X, rect.Bottom - 10, Width, 10);
-            colliderPos = new Vector2(collider.X, collider.Y);
-            isDead = false;
-            target = null;
         }
+
+        protected abstract void Attack(Unit target, GameTime gameTime);
 
         protected void GoToDestination()
         {
@@ -145,30 +125,10 @@ namespace Strategy
             UpdatePosition();
         }
 
-
-        protected abstract void Attack(Unit unit);
-        public abstract void Update();
-        public abstract void Update(Computer p2);
-        public abstract void Draw(SpriteBatch spriteBatch);
-
         #region Helper Functions
-        protected void UpdatePosition()
-        {
-            pos += vel;
-            rect = new Rectangle((int)pos.X, (int)pos.Y, Width, Height);
-            collider = new Rectangle((int)pos.X, rect.Bottom - 10, Width, 10);
-            colliderPos = new Vector2(collider.X, collider.Y);
-        }
-
         public bool IsAtUnit(Unit unit)
         {
-            Vector2 TopLeft = colliderPos;
-            Vector2 TopRight = new Vector2(collider.Right, collider.Top);
-            Vector2 BottomLeft = new Vector2(collider.Left, collider.Bottom);
-            Vector2 BottomRight = new Vector2(collider.Right, collider.Bottom);
-
-            return unit.collider.Contains(TopLeft + vel) || unit.collider.Contains(TopRight + vel) ||
-                unit.collider.Contains(BottomLeft + vel) || unit.collider.Contains(BottomRight + vel);
+            return range.Intersects(unit.collider);
         }
 
         public bool IsMoving()

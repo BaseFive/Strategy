@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Strategy
 {
-    public class Game1 : Game
+    public class Strategy : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -12,17 +12,19 @@ namespace Strategy
         public static Rectangle viewport;
         Computer p2;
 
-        public Game1()
+        public Strategy()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
+            IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
         {
             viewport = new Rectangle(0, 0, 800, 400);
 
-            IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
 
@@ -51,7 +53,7 @@ namespace Strategy
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Player.UpdateUnits(p2);
+            Player.UpdateUnits(p2, gameTime);
             p2.UpdateUnits();
 
             base.Update(gameTime);

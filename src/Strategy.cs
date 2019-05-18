@@ -10,6 +10,7 @@ namespace Strategy
         SpriteBatch spriteBatch;
 
         public static Rectangle viewport;
+        Player player;
         Computer p2;
 
         public Strategy()
@@ -28,7 +29,7 @@ namespace Strategy
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
 
-            Player.Initialize();
+            player = new Player();
             p2 = new Computer();
 
             base.Initialize();
@@ -51,8 +52,8 @@ namespace Strategy
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Player.UpdateUnits(p2, gameTime);
-            p2.UpdateUnits();
+            player.UpdateUnits(p2, gameTime);
+            p2.UpdateUnits(player, gameTime);
 
             base.Update(gameTime);
         }
@@ -62,9 +63,9 @@ namespace Strategy
             GraphicsDevice.Clear(Color.LightGreen);
 
             spriteBatch.Begin();
-            Player.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             p2.Draw(spriteBatch);
-            HUD.Draw(spriteBatch);
+            HUD.Draw(spriteBatch, player);
             spriteBatch.End();
 
             base.Draw(gameTime);

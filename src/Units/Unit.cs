@@ -17,6 +17,8 @@ namespace Strategy
         }
 
         protected abstract void Attack(GameTime gameTime);
+        public abstract void Update(Player player, GameTime gameTime);
+        public abstract void Update(Computer p2, GameTime gameTime);
 
         protected void GoToDestination()
         {

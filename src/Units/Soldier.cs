@@ -116,6 +116,71 @@ namespace Strategy
             CheckHP();
         }
 
+        public override void Update(Player player, GameTime gameTime)
+        {
+            switch (stance)
+            {
+                case Stance.Aggressive:
+                    stance_rect = new Rectangle(0, 0, 160, 40);
+
+                    LookForTarget(player);
+
+                    if (target != null)
+                    {
+                        FollowUnit(target);
+                        if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                            Attack(gameTime);
+                    }
+
+                    break;
+
+                case Stance.Defensive:
+                    stance_rect = new Rectangle(0, 40, 160, 40);
+
+                    LookForTarget(player);
+
+                    if (target != null)
+                    {
+                        FollowUnit(target);
+                        if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                            Attack(gameTime);
+
+                        Circle range = new Circle(origin, 500);
+                        if (!range.Contains(pos))
+                        {
+                            target = null;
+                            destination = origin;
+                        }
+                    }
+
+                    break;
+
+                case Stance.StandGround:
+                    stance_rect = new Rectangle(0, 80, 160, 40);
+
+                    LookForTarget(player);
+
+                    if (target != null && IsAtUnit(target) && time_since_last_attack >= attack_interval)
+                        Attack(gameTime);
+
+                    break;
+
+                case Stance.NoAttack:
+                    stance_rect = new Rectangle(0, 120, 160, 40);
+                    break;
+            }
+
+            foreach (Projectile proj in projectiles)
+                proj.Update();
+
+            for (int i = 0; i < projectiles.Count; i++)
+                if (projectiles[i].isDead)
+                    projectiles.Remove(projectiles[i]);
+
+            time_since_last_attack += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            CheckHP();
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (Projectile proj in projectiles)
@@ -123,7 +188,7 @@ namespace Strategy
 
             spriteBatch.Draw(spriteSheet, pos, Color.White);
 
-            if (isSelected)
+            if (isSelected || HP < MaxHP)
                 DrawHealthBar(spriteBatch);
         }
 
@@ -141,6 +206,33 @@ namespace Strategy
                 Circle sight = Sight();
 
                 foreach (Unit enemy in p2.units)
+                    if (sight.Contains(enemy.pos))
+                        enemiesInSight.Add(enemy);
+
+                if (enemiesInSight.Count == 0)
+                    return;
+
+                float shortest_distance = sight.Radius;
+                foreach (Unit enemy in enemiesInSight)
+                {
+                    float distance = (enemy.pos - pos).Length();
+                    if (distance < shortest_distance)
+                    {
+                        shortest_distance = distance;
+                        target = enemy;
+                    }
+                }
+            }
+        }
+
+        protected void LookForTarget(Player player)
+        {
+            if (!IsMoving() && target == null)
+            {
+                List<Unit> enemiesInSight = new List<Unit>();
+                Circle sight = Sight();
+
+                foreach (Unit enemy in player.units)
                     if (sight.Contains(enemy.pos))
                         enemiesInSight.Add(enemy);
 

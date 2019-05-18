@@ -6,19 +6,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Strategy
 {
-    public static class Player
+    public class Player
     {
-        public static List<Unit> units;
-        public static List<Soldier> soldiers;
-        public static List<Unit> selectedUnits;
-        public static List<Soldier> selectedSoldiers;
-        static Rectangle selection;
+        public List<Unit> units;
+        public List<Soldier> soldiers;
+        public List<Unit> selectedUnits;
+        public List<Soldier> selectedSoldiers;
+        Rectangle selection;
 
         //Keyboard and mouse states used for single presses and clicks
-        static KeyboardState oldKeyboard;
-        static MouseState oldMouse;
+        KeyboardState oldKeyboard;
+        MouseState oldMouse;
 
-        public static void Initialize()
+        public Player()
         {
             units = new List<Unit>();
             selectedUnits = new List<Unit>();
@@ -29,7 +29,7 @@ namespace Strategy
             oldMouse = Mouse.GetState();
         }
 
-        static void HandleMouseInput(Computer p2)
+        void HandleMouseInput(Computer p2)
         {
             //Only handle clicks inside the main game viewport
             if (!Strategy.viewport.Contains(Mouse.GetState().Position))
@@ -101,14 +101,14 @@ namespace Strategy
             oldMouse = newMouse;
         }
 
-        static void HandleKeyboardInput()
+        void HandleKeyboardInput()
         {
             //Kill units with <DELETE>
             if (Keyboard.GetState().IsKeyDown(Keys.Delete) && selectedUnits.Count > 0)
                 selectedUnits[new Random().Next(selectedUnits.Count)].isDead = true;
         }
 
-        public static void UpdateUnits(Computer p2, GameTime gameTime)
+        public void UpdateUnits(Computer p2, GameTime gameTime)
         {
             #region For Testing
             KeyboardState newKeyboard = Keyboard.GetState();
@@ -155,7 +155,7 @@ namespace Strategy
                 }
         }
 
-        public static void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Unit unit in units)
                 unit.Draw(spriteBatch);

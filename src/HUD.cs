@@ -29,28 +29,28 @@ namespace Strategy
             enemy_archer = Content.Load<Texture2D>("Soldiers/Enemy_Archer");
         }
 
-        static bool SelectedSoldiersHaveSameStance()
+        static bool SelectedSoldiersHaveSameStance(Player player)
         {
-            Stance temp = Player.selectedSoldiers[0].stance;
-            foreach (Soldier soldier in Player.soldiers)
+            Stance temp = player.selectedSoldiers[0].stance;
+            foreach (Soldier soldier in player.soldiers)
                 if (soldier.stance != temp)
                     return false;
             return true;
         }
 
-        public static void Draw(SpriteBatch spriteBatch)
+        public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             spriteBatch.Draw(Base, Vector2.Zero, Color.White);
 
             //Displays the stances of selected soldiers if they are the same
-            if (Player.selectedUnits.Count == Player.selectedSoldiers.Count)
+            if (player.selectedUnits.Count == player.selectedSoldiers.Count)
             {
-                if (Player.selectedSoldiers.Count == 1)
-                    spriteBatch.Draw(Stances, new Rectangle(10, 410, 160, 40), Player.selectedSoldiers[0].stance_rect, Color.White);
+                if (player.selectedSoldiers.Count == 1)
+                    spriteBatch.Draw(Stances, new Rectangle(10, 410, 160, 40), player.selectedSoldiers[0].stance_rect, Color.White);
 
-                else if (Player.selectedSoldiers.Count > 1)
-                    if (SelectedSoldiersHaveSameStance())
-                        spriteBatch.Draw(Stances, new Rectangle(10, 410, 160, 40), Player.selectedSoldiers[0].stance_rect, Color.White);
+                else if (player.selectedSoldiers.Count > 1)
+                    if (SelectedSoldiersHaveSameStance(player))
+                        spriteBatch.Draw(Stances, new Rectangle(10, 410, 160, 40), player.selectedSoldiers[0].stance_rect, Color.White);
                     else
                         spriteBatch.Draw(Stances, new Rectangle(10, 410, 160, 40), new Rectangle(0, 160, 160, 40), Color.White);
             }

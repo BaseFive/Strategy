@@ -22,7 +22,7 @@ namespace Strategy
             oldKeyboard = Keyboard.GetState();
         }
 
-        public void UpdateUnits()
+        public void UpdateUnits(Player player, GameTime gameTime)
         {
             #region SpawnUnit
             KeyboardState newKeyboard = Keyboard.GetState();
@@ -42,7 +42,7 @@ namespace Strategy
             #endregion
 
             foreach (Unit unit in units)
-                unit.Update();
+                unit.Update(player, gameTime);
 
             //Remove and disselect dead soldiers
             for (int i = 0; i < soldiers.Count; i++)
@@ -56,11 +56,7 @@ namespace Strategy
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Unit unit in units)
-            {
                 unit.Draw(spriteBatch);
-                if (unit.HP < unit.MaxHP)
-                    unit.DrawHealthBar(spriteBatch);
-            }
         }
     }
 }

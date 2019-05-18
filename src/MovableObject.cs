@@ -14,7 +14,6 @@ namespace Strategy
         }
 
         public abstract void Update();
-        public abstract void Update(Computer p2, GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
 
         protected virtual void UpdatePosition()

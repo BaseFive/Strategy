@@ -22,8 +22,6 @@ namespace Strategy
             this.rotation = rotation;
         }
 
-        public override void Update(Computer p2, GameTime gameTime) { }
-
         public override void Update()
         {
             UpdatePosition();

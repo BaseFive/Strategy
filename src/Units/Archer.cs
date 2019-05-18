@@ -20,20 +20,11 @@ namespace Strategy
             arrow_speed = 4;
         }
 
-        protected override void Attack(Unit target, GameTime gameTime)
+        protected override void Attack(GameTime gameTime)
         {
-            //Calculate direction and velocity of arrow
-            Vector2 dir = new Vector2(target.pos.X + target.Width / 2, target.pos.Y + target.Height / 2) - pos;
-            float distance = dir.Length();
-            Vector2 velocity = (dir / distance) * arrow_speed;
-
-            projectiles.Add(new Arrow(HUD.HP_Bar_Red, pos));
-            projectiles[projectiles.Count - 1].Initialize(velocity, attack, target);
-            time_since_last_attack = 0;
-
             if (target.isDead)
             {
-                base.target = null;
+                target = null;
                 if (stance == Stance.Defensive)
                     destination = origin;
                 else
@@ -41,7 +32,23 @@ namespace Strategy
                     destination = pos;
                     vel = Vector2.Zero;
                 }
+                return;
             }
+
+            //Calculate direction, velocity and rotation of arrows
+            Vector2 direction = target.Centre - Centre;
+            float distance = direction.Length();
+            Vector2 velocity = (direction / distance) * arrow_speed;
+            float rotation = (float)System.Math.Atan(direction.Y / direction.X);
+
+            if (target.Centre.Y <= pos.Y && target.Centre.X <= pos.X)
+                rotation += 3.142f;
+            else if (target.Centre.Y >= pos.Y && target.Centre.X <= pos.X)
+                rotation -= 3.142f;
+
+            projectiles.Add(new Arrow(HUD.arrow, Centre));
+            projectiles[projectiles.Count - 1].Initialize(velocity, attack, target, rotation);
+            time_since_last_attack = 0;
         }
     }
 }

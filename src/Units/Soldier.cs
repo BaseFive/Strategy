@@ -52,7 +52,7 @@ namespace Strategy
                     {
                         FollowUnit(target);
                         if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
-                            Attack(target, gameTime);
+                            Attack(gameTime);
                     }
 
                     break;
@@ -67,7 +67,7 @@ namespace Strategy
                     {
                         FollowUnit(target);
                         if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
-                            Attack(target, gameTime);
+                            Attack(gameTime);
 
                         Circle range = new Circle(origin, 500);
                         if (!range.Contains(pos))
@@ -86,7 +86,7 @@ namespace Strategy
                     LookForTarget(p2);
 
                     if (target != null && IsAtUnit(target) && time_since_last_attack >= attack_interval)
-                        Attack(target, gameTime);
+                        Attack(gameTime);
 
                     break;
 
@@ -118,13 +118,13 @@ namespace Strategy
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            foreach (Projectile proj in projectiles)
+                proj.Draw(spriteBatch);
+
             spriteBatch.Draw(spriteSheet, pos, Color.White);
 
             if (isSelected)
                 DrawHealthBar(spriteBatch);
-
-            foreach (Projectile proj in projectiles)
-                proj.Draw(spriteBatch);
         }
 
         #region Helper Functions
@@ -137,13 +137,26 @@ namespace Strategy
         {
             if (!IsMoving() && target == null)
             {
+                List<Unit> enemiesInSight = new List<Unit>();
                 Circle sight = Sight();
-                foreach (Unit unit in p2.units)
-                    if (sight.Contains(unit.pos))
+
+                foreach (Unit enemy in p2.units)
+                    if (sight.Contains(enemy.pos))
+                        enemiesInSight.Add(enemy);
+
+                if (enemiesInSight.Count == 0)
+                    return;
+
+                float shortest_distance = sight.Radius;
+                foreach (Unit enemy in enemiesInSight)
+                {
+                    float distance = (enemy.pos - pos).Length();
+                    if (distance < shortest_distance)
                     {
-                        target = unit;
-                        break;
+                        shortest_distance = distance;
+                        target = enemy;
                     }
+                }
             }
         }
 

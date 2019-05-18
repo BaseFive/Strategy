@@ -39,8 +39,6 @@ namespace Strategy
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             HUD.LoadContent(Content);
-            Player.LoadContent(Content);
-            p2.LoadContent(Content);
         }
 
         protected override void UnloadContent()

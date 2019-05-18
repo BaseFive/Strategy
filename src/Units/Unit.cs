@@ -16,7 +16,7 @@ namespace Strategy
             destination = pos;
         }
 
-        protected abstract void Attack(Unit target, GameTime gameTime);
+        protected abstract void Attack(GameTime gameTime);
 
         protected void GoToDestination()
         {
@@ -128,7 +128,7 @@ namespace Strategy
         #region Helper Functions
         public bool IsAtUnit(Unit unit)
         {
-            return range.Intersects(unit.collider);
+            return Range.Intersects(unit.Collider);
         }
 
         public bool IsMoving()

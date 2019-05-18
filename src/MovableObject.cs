@@ -5,7 +5,7 @@ namespace Strategy
 {
     public abstract class MovableObject : Entity
     {
-        public Vector2 vel, origin, centre;
+        public Vector2 vel, origin;
         public float speed;
 
         public MovableObject(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
@@ -20,10 +20,6 @@ namespace Strategy
         protected virtual void UpdatePosition()
         {
             pos += vel;
-            centre = new Vector2(pos.X + Width / 2, pos.Y + Height / 2);
-            range = new Circle(new Vector2(collider.X + collider.Width / 2, collider.Y + collider.Width / 2), hit_range);
-            rect = new Rectangle((int)pos.X, (int)pos.Y, Width, Height);
-            collider = new Square((int)pos.X, rect.Bottom - Width, Width);
         }
     }
 }

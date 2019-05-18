@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,7 +12,6 @@ namespace Strategy
         public static List<Soldier> soldiers;
         public static List<Unit> selectedUnits;
         public static List<Soldier> selectedSoldiers;
-        public static Texture2D soldier, stances;
         static Rectangle selection;
 
         //Keyboard and mouse states used for single presses and clicks
@@ -31,13 +29,7 @@ namespace Strategy
             oldMouse = Mouse.GetState();
         }
 
-        public static void LoadContent(ContentManager Content)
-        {
-            soldier = Content.Load<Texture2D>("Soldiers/Soldier");
-            stances = Content.Load<Texture2D>("HUD/Stances");
-        }
-
-        static void HandleMouseInput()
+        static void HandleMouseInput(Computer p2)
         {
             //Only handle clicks inside the main game viewport
             if (!Strategy.viewport.Contains(Mouse.GetState().Position))
@@ -61,7 +53,7 @@ namespace Strategy
 
                 //Add unit to selected group
                 foreach (Soldier soldier in soldiers)
-                    if (soldier.rect.Contains(Mouse.GetState().Position))
+                    if (soldier.Rectangle.Contains(Mouse.GetState().Position))
                     {
                         selectedSoldiers.Add(soldier);
                         selectedUnits.Add(soldier);
@@ -99,6 +91,10 @@ namespace Strategy
                     unit.vel = Vector2.One;
                     unit.destination = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                     unit.origin = unit.destination;
+
+                    foreach (Unit enemy in p2.units)
+                        if (enemy.Rectangle.Contains(Mouse.GetState().Position))
+                            unit.target = enemy;
                 }
             }
 
@@ -119,13 +115,13 @@ namespace Strategy
             #region SpawnUnit
             if (oldKeyboard.IsKeyUp(Keys.Z) && newKeyboard.IsKeyDown(Keys.Z))
             {
-                Swordsman temp = new Swordsman(soldier, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
+                Swordsman temp = new Swordsman(HUD.swordsman, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
                 units.Add(temp);
                 soldiers.Add(temp);
             }
             if (oldKeyboard.IsKeyUp(Keys.A) && newKeyboard.IsKeyDown(Keys.A))
             {
-                Archer temp = new Archer(soldier, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
+                Archer temp = new Archer(HUD.archer, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
                 units.Add(temp);
                 soldiers.Add(temp);
             }
@@ -142,7 +138,7 @@ namespace Strategy
             #endregion
             #endregion
 
-            HandleMouseInput();
+            HandleMouseInput(p2);
             HandleKeyboardInput();
 
             foreach (Unit unit in units)

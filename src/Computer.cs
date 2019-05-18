@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -12,7 +11,6 @@ namespace Strategy
     {
         public List<Unit> units;
         public List<Soldier> soldiers;
-        public Texture2D soldier, stances;
 
         KeyboardState oldKeyboard;
 
@@ -24,19 +22,19 @@ namespace Strategy
             oldKeyboard = Keyboard.GetState();
         }
 
-        public void LoadContent(ContentManager Content)
-        {
-            soldier = Content.Load<Texture2D>("Soldiers/Enemy");
-            stances = Content.Load<Texture2D>("HUD/Stances");
-        }
-
         public void UpdateUnits()
         {
             #region SpawnUnit
             KeyboardState newKeyboard = Keyboard.GetState();
             if (oldKeyboard.IsKeyUp(Keys.X) && newKeyboard.IsKeyDown(Keys.X))
             {
-                Swordsman temp = new Swordsman(soldier, new Vector2(400 + new Random().Next() % 380, new Random().Next() % 380));
+                Swordsman temp = new Swordsman(HUD.enemy_swordsman, new Vector2(400 + new Random().Next() % 380, new Random().Next() % 380));
+                units.Add(temp);
+                soldiers.Add(temp);
+            }
+            if (oldKeyboard.IsKeyUp(Keys.S) && newKeyboard.IsKeyDown(Keys.S))
+            {
+                Archer temp = new Archer(HUD.enemy_archer, new Vector2(400 + new Random().Next() % 380, new Random().Next() % 380));
                 units.Add(temp);
                 soldiers.Add(temp);
             }

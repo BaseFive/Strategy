@@ -8,10 +8,16 @@
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HP_Bar_Red.png</File>
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HUD_Base.png</File>
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/Stances.png</File>
-    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy.png</File>
-    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Soldier.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Projectiles/Arrow.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Archer.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy_Archer.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy_Swordsman.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Swordsman.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

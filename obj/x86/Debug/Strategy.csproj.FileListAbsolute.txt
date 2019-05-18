@@ -1,5 +1,3 @@
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Enemy.xnb
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Soldier.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\Stances.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Strategy.exe
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Strategy.pdb
@@ -27,3 +25,8 @@ C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.pdb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HUD_Base.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HP_Bar_Green.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HP_Bar_Red.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Archer.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Enemy_Archer.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Enemy_Swordsman.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Swordsman.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Projectiles\Arrow.xnb

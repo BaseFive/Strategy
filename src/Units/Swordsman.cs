@@ -16,12 +16,9 @@ namespace Strategy
             attack_interval = 1.5f;
         }
 
-        protected override void Attack(Unit unit, GameTime gameTime)
+        protected override void Attack(GameTime gameTime)
         {
-            unit.HP -= attack;
-            time_since_last_attack = 0;
-
-            if (unit.isDead)
+            if (target.isDead)
             {
                 target = null;
                 if (stance == Stance.Defensive)
@@ -31,7 +28,11 @@ namespace Strategy
                     destination = pos;
                     vel = Vector2.Zero;
                 }
+                return;
             }
+
+            target.HP -= attack;
+            time_since_last_attack = 0;
         }
     }
 }

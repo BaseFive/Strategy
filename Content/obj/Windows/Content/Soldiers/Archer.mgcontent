@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy.png</SourceFile>
-  <SourceTime>2019-05-12T21:57:25.3817628-04:00</SourceTime>
-  <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/Soldiers/Enemy.xnb</DestFile>
-  <DestTime>2019-05-13T14:50:40.1072127-04:00</DestTime>
+  <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Archer.png</SourceFile>
+  <SourceTime>2019-05-17T16:16:42.9058597-04:00</SourceTime>
+  <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/Soldiers/Archer.xnb</DestFile>
+  <DestTime>2019-05-17T16:27:39.1288624-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T12:35:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -6,17 +6,20 @@ namespace Strategy
     public abstract class Projectile : MovableObject
     {
         protected float flight_distance;
+        public float rotation;
 
         public Projectile(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
             hit_range = 10;
+            rotation = 0;
         }
 
-        public void Initialize(Vector2 vel, int attack, Unit target)
+        public void Initialize(Vector2 vel, int attack, Unit target, float rotation)
         {
             this.vel = vel;
             this.attack = attack;
             this.target = target;
+            this.rotation = rotation;
         }
 
         public override void Update(Computer p2, GameTime gameTime) { }
@@ -24,7 +27,7 @@ namespace Strategy
         public override void Update()
         {
             UpdatePosition();
-            if (target != null && range.Intersects(target.collider))
+            if (target != null && Range.Intersects(target.Collider))
             {
                 target.HP -= attack;
                 isDead = true;
@@ -37,14 +40,12 @@ namespace Strategy
         protected override void UpdatePosition()
         {
             pos += vel;
-            range = new Circle(new Vector2(pos.X + Width / 2, pos.Y + Height / 2), hit_range);
-            rect = new Rectangle((int)pos.X, (int)pos.Y, Width, Height);
-            collider = new Square((int)pos.X, rect.Bottom - Width, Width);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, pos, Color.White);
+            Rectangle srcRect = new Rectangle(0, 0, Width, Height);
+            spriteBatch.Draw(spriteSheet, Rectangle, srcRect, Color.White, rotation, Vector2.Zero, SpriteEffects.None, 1f);
         }
     }
 }

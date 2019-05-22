@@ -43,7 +43,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\Camera.cs" />
     <Compile Include="src\Entity.cs" />
+    <Compile Include="src\Level.cs" />
+    <Compile Include="src\Map.cs" />
     <Compile Include="src\MovableObject.cs" />
     <Compile Include="src\Projectiles\Projectile.cs" />
     <Compile Include="src\Units\Archer.cs" />
@@ -65,6 +68,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
@@ -72,6 +76,12 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Griddle\Griddle.csproj">
+      <Project>{df162ed8-38c8-4b90-b565-15f5c975e029}</Project>
+      <Name>Griddle</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

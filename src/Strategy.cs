@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Griddle;
 
 namespace Strategy
 {
@@ -8,8 +9,10 @@ namespace Strategy
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         public static Rectangle viewport;
+
+        Map map;
+
         Player player;
         Computer p2;
 
@@ -29,6 +32,10 @@ namespace Strategy
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
 
+            Camera.Initialize(GraphicsDevice.Viewport);
+
+            map = new Map("Grassland.xml");
+
             player = new Player();
             p2 = new Computer();
 
@@ -40,6 +47,7 @@ namespace Strategy
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             HUD.LoadContent(Content);
+            map.LoadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -52,6 +60,8 @@ namespace Strategy
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            Camera.Update(map);
+
             player.UpdateUnits(p2, gameTime);
             p2.UpdateUnits(player, gameTime);
 
@@ -62,9 +72,13 @@ namespace Strategy
         {
             GraphicsDevice.Clear(Color.LightGreen);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
+            map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             p2.Draw(spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin();
             HUD.Draw(spriteBatch, player);
             spriteBatch.End();
 

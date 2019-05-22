@@ -30,3 +30,6 @@ C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldie
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Enemy_Swordsman.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Soldiers\Swordsman.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Projectiles\Arrow.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Griddle.dll
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Griddle.pdb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Tilesets\FarmTiles.xnb

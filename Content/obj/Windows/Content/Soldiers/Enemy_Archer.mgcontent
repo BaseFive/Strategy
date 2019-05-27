@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy_Archer.png</SourceFile>
-  <SourceTime>2019-05-17T16:18:14.989349-04:00</SourceTime>
+  <SourceTime>2019-05-26T21:09:31.1018695-04:00</SourceTime>
   <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/Soldiers/Enemy_Archer.xnb</DestFile>
-  <DestTime>2019-05-17T16:27:39.2188071-04:00</DestTime>
+  <DestTime>2019-05-26T21:13:11.3520494-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T12:35:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

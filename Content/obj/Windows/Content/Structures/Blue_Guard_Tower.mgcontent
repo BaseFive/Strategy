@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Swordsman.png</SourceFile>
-  <SourceTime>2019-05-26T21:09:31.1048666-04:00</SourceTime>
-  <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/Soldiers/Swordsman.xnb</DestFile>
-  <DestTime>2019-05-26T21:13:11.4579836-04:00</DestTime>
+  <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Structures/Blue_Guard_Tower.png</SourceFile>
+  <SourceTime>2019-05-22T21:14:48.1816937-04:00</SourceTime>
+  <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/Structures/Blue_Guard_Tower.xnb</DestFile>
+  <DestTime>2019-05-26T21:25:39.3705039-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T12:35:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

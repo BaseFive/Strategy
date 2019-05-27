@@ -1,6 +1,4 @@
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\Stances.xnb
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Strategy.exe
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Strategy.pdb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\MonoGame.Framework.dll
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\SharpDX.MediaFoundation.dll
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\SharpDX.dll
@@ -20,8 +18,6 @@ C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\SharpDX.XInput
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.csprojAssemblyReference.cache
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.csproj.CoreCompileInputs.cache
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.csproj.CopyComplete
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.exe
-C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\Strategy.pdb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HUD_Base.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HP_Bar_Green.xnb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\HUD\HP_Bar_Red.xnb
@@ -33,3 +29,9 @@ C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Projec
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Griddle.dll
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Griddle.pdb
 C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Tilesets\FarmTiles.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\][io.exe
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\][io.pdb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\][io.exe
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\obj\x86\Debug\][io.pdb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Structures\Blue_Guard_Tower.xnb
+C:\dev\Sandbox\Game Tests\Strategy\Strategy\bin\Windows\x86\Debug\Content\Structures\Red_Guard_Tower.xnb

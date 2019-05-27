@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/Stances.png</SourceFile>
-  <SourceTime>2019-05-13T16:16:09.1533414-04:00</SourceTime>
+  <SourceTime>2019-05-26T21:09:31.0948732-04:00</SourceTime>
   <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/HUD/Stances.xnb</DestFile>
-  <DestTime>2019-05-13T16:29:29.3870724-04:00</DestTime>
+  <DestTime>2019-05-26T21:13:11.1091997-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T12:35:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

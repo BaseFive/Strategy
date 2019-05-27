@@ -13,9 +13,13 @@
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy_Archer.png</File>
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Enemy_Swordsman.png</File>
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Soldiers/Swordsman.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Structures/Blue_Guard_Tower.png</File>
+    <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Structures/Red_Guard_Tower.png</File>
     <File>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/Tilesets/FarmTiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

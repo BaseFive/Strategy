@@ -14,6 +14,8 @@ namespace Strategy
         public static Texture2D swordsman, enemy_swordsman;
         public static Texture2D archer, enemy_archer;
 
+        public static Texture2D blue_guard_tower, red_guard_tower;
+
         public static void LoadContent(ContentManager Content)
         {
             Base = Content.Load<Texture2D>("HUD/HUD_Base");
@@ -22,6 +24,9 @@ namespace Strategy
             HP_Bar_Red = Content.Load<Texture2D>("HUD/HP_Bar_Red");
 
             arrow = Content.Load<Texture2D>("Projectiles/Arrow");
+
+            blue_guard_tower = Content.Load<Texture2D>("Structures/Blue_Guard_Tower");
+            red_guard_tower = Content.Load<Texture2D>("Structures/Red_Guard_Tower");
 
             swordsman = Content.Load<Texture2D>("Soldiers/Swordsman");
             archer = Content.Load<Texture2D>("Soldiers/Archer");

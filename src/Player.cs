@@ -12,6 +12,8 @@ namespace Strategy
         public List<Soldier> soldiers;
         public List<Unit> selectedUnits;
         public List<Soldier> selectedSoldiers;
+        public List<Structure> structures;
+        public List<Structure> selectedStructures;
         Rectangle selection;
 
         //Keyboard and mouse states used for single presses and clicks
@@ -24,6 +26,8 @@ namespace Strategy
             selectedUnits = new List<Unit>();
             soldiers = new List<Soldier>();
             selectedSoldiers = new List<Soldier>();
+            structures = new List<Structure>();
+            selectedStructures = new List<Structure>();
 
             oldKeyboard = Keyboard.GetState();
             oldMouse = Mouse.GetState();
@@ -112,7 +116,7 @@ namespace Strategy
         {
             #region For Testing
             KeyboardState newKeyboard = Keyboard.GetState();
-            #region SpawnUnit
+            #region Spawn Unit/Structure
             if (oldKeyboard.IsKeyUp(Keys.Z) && newKeyboard.IsKeyDown(Keys.Z))
             {
                 Swordsman temp = new Swordsman(HUD.swordsman, new Vector2(new Random().Next() % 380, new Random().Next() % 380));
@@ -125,6 +129,12 @@ namespace Strategy
                 units.Add(temp);
                 soldiers.Add(temp);
             }
+
+            if (oldKeyboard.IsKeyUp(Keys.C) && newKeyboard.IsKeyDown(Keys.C) && structures.Count == 0)
+            {
+                GuardTower temp = new GuardTower(HUD.blue_guard_tower, new Vector2(300, 100));
+                structures.Add(temp);
+            }
             #endregion
             #region ReduceHealth
             foreach (Unit unit in selectedUnits)
@@ -132,10 +142,6 @@ namespace Strategy
                     unit.HP--;
             #endregion
             oldKeyboard = newKeyboard;
-            #region MoveEnemyUnit
-            if (p2.units.Count > 0 && Keyboard.GetState().IsKeyDown(Keys.Space))
-                p2.units[0].destination = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            #endregion
             #endregion
 
             HandleMouseInput(p2);
@@ -153,10 +159,24 @@ namespace Strategy
                     selectedSoldiers.Remove(soldiers[i]);
                     soldiers.Remove(soldiers[i]);
                 }
+
+            foreach (Structure structure in structures)
+                structure.Update(p2, gameTime);
+
+            //Remove and disselect destroyed structures
+            for (int i = 0; i < structures.Count; i++)
+                if (structures[i].isDead)
+                {
+                    selectedStructures.Remove(structures[i]);
+                    structures.Remove(structures[i]);
+                }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            foreach (Structure structure in structures)
+                structure.Draw(spriteBatch);
+
             foreach (Unit unit in units)
                 unit.Draw(spriteBatch);
         }

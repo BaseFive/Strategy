@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Strategy
@@ -13,9 +14,11 @@ namespace Strategy
         public float attack_interval, time_since_last_attack;
         public bool isSelected;
         public float HP, MaxHP;
+        protected float sight_radius;
         protected float hit_range;
         public bool isDead;
         public Unit? target;
+        public List<Projectile> projectiles;
 
         public Vector2 Centre
         {
@@ -37,6 +40,17 @@ namespace Strategy
             get { return new Square((int)pos.X, Rectangle.Bottom - Width, Width); }
         }
 
+        protected Circle Sight
+        {
+            get { return new Circle(new Vector2(pos.X + Width / 2, pos.Y + Height / 2), sight_radius); }
+        }
+
+        protected Vector2 Fire_Position
+        {
+            get { return new Vector2(pos.X + Width / 2, pos.Y + Height / 4); }
+            set { }
+        }
+
         public Entity(Texture2D spriteSheet, Vector2 pos)
         {
             this.spriteSheet = spriteSheet;
@@ -45,6 +59,25 @@ namespace Strategy
             this.pos = pos;
             isDead = false;
             target = null;
+            time_since_last_attack = 0;
+            projectiles = new List<Projectile>();
+        }
+
+        public void UpdateProjectiles()
+        {
+            foreach (Projectile proj in projectiles)
+                proj.Update();
+
+            for (int i = 0; i < projectiles.Count; i++)
+                if (projectiles[i].isDead)
+                    projectiles.Remove(projectiles[i]);
+        }
+
+        public void DrawHealthBar(SpriteBatch spriteBatch)
+        {
+            int greenBarWidth = (int)((HP / MaxHP) * 16);
+            spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle((int)pos.X - 3, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
+            spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle((int)pos.X - 3 + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
         }
     }
 }

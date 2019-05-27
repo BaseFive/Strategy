@@ -8,22 +8,21 @@ namespace Strategy
     public enum Stance { Aggressive, Defensive, StandGround, NoAttack };
     public enum SoldierType { Swordsman, Archer };
 
-    public abstract class Soldier : Unit
+    public abstract class Soldier : Unit, Aggressor
     {
         public Stance stance { get; protected set; }
         public SoldierType soldierType { get; protected set; }
-        protected float sightRadius;
         public Rectangle stance_rect { get; protected set; }
         protected Rectangle aggressive_rect, defensive_rect, standGround_rect, noAttack_rect;
-        public List<Projectile> projectiles;
+
+        Circle Movement_Range { get { return new Circle(origin, 500); } }
 
         public Soldier(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
-            projectiles = new List<Projectile>();
             unitType = UnitType.Soldier;
             stance = Stance.Aggressive;
             hit_range = 10;
-            sightRadius = 300;
+            sight_radius = 300;
 
             aggressive_rect = new Rectangle(10, 410, 40, 40);
             defensive_rect = new Rectangle(50, 410, 40, 40);
@@ -69,8 +68,7 @@ namespace Strategy
                         if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
                             Attack(gameTime);
 
-                        Circle range = new Circle(origin, 500);
-                        if (!range.Contains(pos))
+                        if (!Movement_Range.Contains(pos))
                         {
                             target = null;
                             destination = origin;
@@ -145,8 +143,7 @@ namespace Strategy
                         if (IsAtUnit(target) && time_since_last_attack >= attack_interval)
                             Attack(gameTime);
 
-                        Circle range = new Circle(origin, 500);
-                        if (!range.Contains(pos))
+                        if (!Movement_Range.Contains(pos))
                         {
                             target = null;
                             destination = origin;
@@ -170,12 +167,7 @@ namespace Strategy
                     break;
             }
 
-            foreach (Projectile proj in projectiles)
-                proj.Update();
-
-            for (int i = 0; i < projectiles.Count; i++)
-                if (projectiles[i].isDead)
-                    projectiles.Remove(projectiles[i]);
+            UpdateProjectiles();
 
             time_since_last_attack += (float)gameTime.ElapsedGameTime.TotalSeconds;
             CheckHP();
@@ -193,26 +185,20 @@ namespace Strategy
         }
 
         #region Helper Functions
-        protected Circle Sight()
-        {
-            return new Circle(new Vector2(pos.X + Width / 2, pos.Y + Height / 2), sightRadius);
-        }
-
-        protected void LookForTarget(Computer p2)
+        public void LookForTarget(Computer p2)
         {
             if (!IsMoving() && target == null)
             {
                 List<Unit> enemiesInSight = new List<Unit>();
-                Circle sight = Sight();
 
                 foreach (Unit enemy in p2.units)
-                    if (sight.Contains(enemy.pos))
+                    if (Sight.Contains(enemy.pos))
                         enemiesInSight.Add(enemy);
 
                 if (enemiesInSight.Count == 0)
                     return;
 
-                float shortest_distance = sight.Radius;
+                float shortest_distance = Sight.Radius;
                 foreach (Unit enemy in enemiesInSight)
                 {
                     float distance = (enemy.pos - pos).Length();
@@ -225,21 +211,20 @@ namespace Strategy
             }
         }
 
-        protected void LookForTarget(Player player)
+        public void LookForTarget(Player player)
         {
             if (!IsMoving() && target == null)
             {
                 List<Unit> enemiesInSight = new List<Unit>();
-                Circle sight = Sight();
 
                 foreach (Unit enemy in player.units)
-                    if (sight.Contains(enemy.pos))
+                    if (Sight.Contains(enemy.pos))
                         enemiesInSight.Add(enemy);
 
                 if (enemiesInSight.Count == 0)
                     return;
 
-                float shortest_distance = sight.Radius;
+                float shortest_distance = Sight.Radius;
                 foreach (Unit enemy in enemiesInSight)
                 {
                     float distance = (enemy.pos - pos).Length();
@@ -254,9 +239,8 @@ namespace Strategy
 
         protected bool EnemyInSight(Computer p2)
         {
-            Circle sight = Sight();
             foreach (Unit unit in p2.units)
-                if (sight.Contains(unit.pos))
+                if (Sight.Contains(unit.pos))
                     return true;
             return false;
         }

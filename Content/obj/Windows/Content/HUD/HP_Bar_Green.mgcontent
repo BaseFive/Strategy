@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/HUD/HP_Bar_Green.png</SourceFile>
-  <SourceTime>2019-05-14T05:38:33.4917842-04:00</SourceTime>
+  <SourceTime>2019-05-26T21:09:31.0858795-04:00</SourceTime>
   <DestFile>C:/dev/Sandbox/Game Tests/Strategy/Strategy/Content/bin/Windows/Content/HUD/HP_Bar_Green.xnb</DestFile>
-  <DestTime>2019-05-14T05:46:26.4489695-04:00</DestTime>
+  <DestTime>2019-05-26T21:13:10.3586639-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T12:35:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

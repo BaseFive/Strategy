@@ -143,13 +143,6 @@ namespace Strategy
             if (HP <= 0)
                 isDead = true;
         }
-
-        public void DrawHealthBar(SpriteBatch spriteBatch)
-        {
-            int greenBarWidth = (int)((HP / MaxHP) * 16);
-            spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle((int)pos.X - 3, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
-            spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle((int)pos.X - 3 + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
-        }
         #endregion
     }
 }

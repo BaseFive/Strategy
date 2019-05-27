@@ -10,7 +10,7 @@ namespace Strategy
         public Archer(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
         {
             soldierType = SoldierType.Archer;
-            HP = 20;
+            HP = 40;
             MaxHP = HP;
             speed = 2;
             attack = 5;

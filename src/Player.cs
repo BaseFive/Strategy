@@ -9,9 +9,9 @@ namespace Strategy
     public class Player
     {
         public List<Unit> units;
-        public List<Soldier> soldiers;
         public List<Unit> selectedUnits;
-        public List<Soldier> selectedSoldiers;
+        public List<Villager> villagers;
+        public List<Soldier> soldiers;
         public List<Structure> structures;
         public List<Structure> selectedStructures;
         Rectangle selection;
@@ -24,8 +24,8 @@ namespace Strategy
         {
             units = new List<Unit>();
             selectedUnits = new List<Unit>();
+            villagers = new List<Villager>();
             soldiers = new List<Soldier>();
-            selectedSoldiers = new List<Soldier>();
             structures = new List<Structure>();
             selectedStructures = new List<Structure>();
 
@@ -45,23 +45,34 @@ namespace Strategy
             if (oldMouse.LeftButton == ButtonState.Released && newMouse.LeftButton == ButtonState.Pressed)
             {
                 selection = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 0, 0);
-                //Reset selection if <CTRL> key is not held
+                selectedStructures.Clear();
+
+                //Reset unit selection if <CTRL> key is not held
                 if (Keyboard.GetState().IsKeyUp(Keys.LeftControl) && Keyboard.GetState().IsKeyUp(Keys.RightControl))
                 {
                     selectedUnits.Clear();
-                    selectedSoldiers.Clear();
 
                     foreach (Unit unit in units)
                         unit.isSelected = false;
+
+                    foreach (Structure structure in structures)
+                        structure.isSelected = false;
                 }
 
                 //Add unit to selected group
-                foreach (Soldier soldier in soldiers)
-                    if (soldier.Rectangle.Contains(Mouse.GetState().Position))
+                foreach (Unit unit in units)
+                    if (unit.Rectangle.Contains(Mouse.GetState().Position))
                     {
-                        selectedSoldiers.Add(soldier);
-                        selectedUnits.Add(soldier);
-                        soldier.isSelected = true;
+                        selectedUnits.Add(unit);
+                        unit.isSelected = true;
+                        break;
+                    }
+
+                foreach (Structure structure in structures)
+                    if (structure.Rectangle.Contains(Mouse.GetState().Position))
+                    {
+                        selectedStructures.Add(structure);
+                        structure.isSelected = true;
                         break;
                     }
             }
@@ -75,15 +86,12 @@ namespace Strategy
 
             else if (oldMouse.LeftButton == ButtonState.Pressed && newMouse.LeftButton == ButtonState.Released)
             {
-                foreach (Soldier soldier in soldiers)
-                {
-                    if (selection.Contains(soldier.pos))
+                foreach (Unit unit in units)
+                    if (selection.Contains(unit.pos))
                     {
-                        selectedSoldiers.Add(soldier);
-                        selectedUnits.Add(soldier);
-                        soldier.isSelected = true;
+                        selectedUnits.Add(unit);
+                        unit.isSelected = true;
                     }
-                }
             }
 
             //Tell units where to go
@@ -107,9 +115,14 @@ namespace Strategy
 
         void HandleKeyboardInput()
         {
-            //Kill units with <DELETE>
-            if (Keyboard.GetState().IsKeyDown(Keys.Delete) && selectedUnits.Count > 0)
-                selectedUnits[new Random().Next(selectedUnits.Count)].isDead = true;
+            //Remove units/structures with <DELETE>
+            if (Keyboard.GetState().IsKeyDown(Keys.Delete))
+            {
+                if (selectedUnits.Count > 0)
+                    selectedUnits[new Random().Next(selectedUnits.Count)].isDead = true;
+                if (selectedStructures.Count > 0)
+                    selectedStructures[new Random().Next(selectedStructures.Count)].isDead = true;
+            }
         }
 
         public void UpdateUnits(Computer p2, GameTime gameTime)
@@ -129,11 +142,16 @@ namespace Strategy
                 units.Add(temp);
                 soldiers.Add(temp);
             }
-
             if (oldKeyboard.IsKeyUp(Keys.C) && newKeyboard.IsKeyDown(Keys.C) && structures.Count == 0)
             {
                 GuardTower temp = new GuardTower(HUD.blue_guard_tower, new Vector2(300, 100));
                 structures.Add(temp);
+            }
+            if (oldKeyboard.IsKeyUp(Keys.V) && newKeyboard.IsKeyDown(Keys.V) && villagers.Count == 0)
+            {
+                Villager temp = new Villager(HUD.villager, new Vector2(100));
+                units.Add(temp);
+                villagers.Add(temp);
             }
             #endregion
             #region ReduceHealth
@@ -147,29 +165,15 @@ namespace Strategy
             HandleMouseInput(p2);
             HandleKeyboardInput();
 
-            foreach (Unit unit in units)
-                unit.Update(p2, gameTime);
-
-            //Remove and disselect dead soldiers
-            for (int i = 0; i < soldiers.Count; i++)
-                if (soldiers[i].isDead)
-                {
-                    selectedUnits.Remove(soldiers[i]);
-                    units.Remove(soldiers[i]);
-                    selectedSoldiers.Remove(soldiers[i]);
-                    soldiers.Remove(soldiers[i]);
-                }
+            foreach (Soldier soldier in soldiers)
+                soldier.Update(p2, gameTime);
+            foreach (Villager villager in villagers)
+                villager.Update(this, gameTime);
+            RemoveDeadUnits();
 
             foreach (Structure structure in structures)
-                structure.Update(p2, gameTime);
-
-            //Remove and disselect destroyed structures
-            for (int i = 0; i < structures.Count; i++)
-                if (structures[i].isDead)
-                {
-                    selectedStructures.Remove(structures[i]);
-                    structures.Remove(structures[i]);
-                }
+                structure.Update(this, p2, gameTime);
+            RemoveDestroyedStructures();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -179,6 +183,26 @@ namespace Strategy
 
             foreach (Unit unit in units)
                 unit.Draw(spriteBatch);
+        }
+
+        void RemoveDeadUnits()
+        {
+            for (int i = 0; i < units.Count; i++)
+                if (units[i].isDead)
+                {
+                    selectedUnits.Remove(units[i]);
+                    units.Remove(units[i]);
+                }
+        }
+
+        void RemoveDestroyedStructures()
+        {
+            for (int i = 0; i < structures.Count; i++)
+                if (structures[i].isDead)
+                {
+                    selectedStructures.Remove(structures[i]);
+                    structures.Remove(structures[i]);
+                }
         }
     }
 }

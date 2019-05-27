@@ -63,6 +63,14 @@ namespace Strategy
             projectiles = new List<Projectile>();
         }
 
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(spriteSheet, Rectangle, Color.White);
+
+            if (isSelected || HP < MaxHP)
+                DrawHealthBar(spriteBatch);
+        }
+
         public void UpdateProjectiles()
         {
             foreach (Projectile proj in projectiles)
@@ -76,8 +84,9 @@ namespace Strategy
         public void DrawHealthBar(SpriteBatch spriteBatch)
         {
             int greenBarWidth = (int)((HP / MaxHP) * 16);
-            spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle((int)pos.X - 3, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
-            spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle((int)pos.X - 3 + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
+            int xPos = (int)pos.X + Width / 2 - HUD.HP_Bar_Green.Width / 2;
+            spriteBatch.Draw(HUD.HP_Bar_Green, new Rectangle(xPos, (int)pos.Y - 4, greenBarWidth, 2), Color.White);
+            spriteBatch.Draw(HUD.HP_Bar_Red, new Rectangle(xPos + greenBarWidth, (int)pos.Y - 4, 16 - greenBarWidth, 2), Color.White);
         }
     }
 }

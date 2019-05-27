@@ -13,8 +13,7 @@ namespace Strategy
             origin = pos;
         }
 
-        public abstract void Update();
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public virtual void Update() { }
 
         protected virtual void UpdatePosition()
         {

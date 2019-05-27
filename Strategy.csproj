@@ -10,7 +10,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Strategy</RootNamespace>
-    <AssemblyName>][io</AssemblyName>
+    <AssemblyName>Strategy</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -58,12 +58,16 @@
     <Compile Include="src\Projectiles\Arrow.cs" />
     <Compile Include="src\Projectiles\Projectile.cs" />
     <Compile Include="src\Strategy.cs" />
+    <Compile Include="src\Structures\ArcheryRange.cs" />
+    <Compile Include="src\Structures\Barracks.cs" />
+    <Compile Include="src\Structures\DefenseStructure.cs" />
     <Compile Include="src\Structures\GuardTower.cs" />
     <Compile Include="src\Structures\Structure.cs" />
     <Compile Include="src\Units\Archer.cs" />
     <Compile Include="src\Units\Soldier.cs" />
     <Compile Include="src\Units\Swordsman.cs" />
     <Compile Include="src\Units\Unit.cs" />
+    <Compile Include="src\Units\Villager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

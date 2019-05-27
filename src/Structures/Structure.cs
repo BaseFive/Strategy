@@ -4,8 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Strategy
 {
+    public enum BuildingID { Barracks, ArcheryRange, GuardTower };
+
     public abstract class Structure : Entity, Aggressor
     {
+        public BuildingID ID { get; protected set; }
         protected int projectile_speed;
 
         public Structure(Texture2D spriteSheet, Vector2 pos) : base(spriteSheet, pos)
@@ -14,10 +17,18 @@ namespace Strategy
             hit_range = sight_radius;
         }
 
-        public abstract void Attack(GameTime gameTime);
-        public abstract void Update(Computer p2, GameTime gameTime);
-        public abstract void Draw(SpriteBatch spritebatch);
+        public abstract void Update(Player player, Computer p2, GameTime gameTime);
 
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Projectile proj in projectiles)
+                proj.Draw(spriteBatch);
+
+            spriteBatch.Draw(spriteSheet, pos, Color.White);
+
+            if (isSelected || HP < MaxHP)
+                DrawHealthBar(spriteBatch);
+        }
 
         public void LookForTarget(Computer p2)
         {

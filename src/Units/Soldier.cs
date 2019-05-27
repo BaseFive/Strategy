@@ -30,12 +30,6 @@ namespace Strategy
             noAttack_rect = new Rectangle(130, 410, 40, 40);
         }
 
-        public override void Update()
-        {
-            GoToDestination();
-            CheckHP();
-        }
-
         public override void Update(Computer p2, GameTime gameTime)
         {
             //Update based on stance

@@ -22,16 +22,16 @@ namespace Strategy
         {
             MouseState Pos = Mouse.GetState();
 
-            if (Pos.X < 0 && centre.X > viewport.Width / 2)
+            if ((Pos.X < 0 || Keyboard.GetState().IsKeyDown(Keys.Left)) && centre.X > viewport.Width / 2)
                 centre.X -= MovementSpeed;
 
-            else if (Pos.X > viewport.Width && centre.X < map.Width - viewport.Width / 2)
+            else if ((Pos.X > viewport.Width || Keyboard.GetState().IsKeyDown(Keys.Right)) && centre.X < map.Width - viewport.Width / 2)
                 centre.X += MovementSpeed;
 
-            if (Pos.Y < 0 && centre.Y > viewport.Height / 2)
+            if ((Pos.Y < 0 || Keyboard.GetState().IsKeyDown(Keys.Up)) && centre.Y > viewport.Height / 2)
                 centre.Y -= MovementSpeed;
 
-            else if (Pos.Y > viewport.Height && centre.Y < map.Height - viewport.Height / 2)
+            else if ((Pos.Y > viewport.Height || Keyboard.GetState().IsKeyDown(Keys.Down)) && centre.Y < map.Height - viewport.Height / 2)
                 centre.Y+= MovementSpeed;
 
             transform = Matrix.CreateTranslation(new Vector3(-centre.X + viewport.Width / 2, -centre.Y + viewport.Height / 2, 0));
